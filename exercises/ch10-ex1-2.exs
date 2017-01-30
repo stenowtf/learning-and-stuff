@@ -42,11 +42,20 @@ defmodule MyEnum do
 
   # split
   # Splits the enumerable into two enumerables, leaving count elements in the first one.
-  def my_split(list, number), do: _my_split(list, number, {[], list})
-  defp _my_filter([], _, {result_list, left_list}), do: {result_list, left_list}
-  defp _my_filter(_, 0, {result_list, left_list}), do: {result_list, left_list}
-  defp _my_filter([head | tail], number, {result_list, left_list}) do
-    #
+  def my_split(list, num), do: _my_split(list, num, 0, {[], list})
+  defp _my_split([], num, done, {result_list, left_list}) do
+    {Enum.reverse(result_list), left_list}
+  end
+  defp _my_split(_, 0, 0, {result_list, left_list}) do
+    {result_list, left_list}
+  end
+  defp _my_split([head | tail], num, done, {result_list, left_list})
+  when done < num do
+    _my_split(tail, num, done + 1, {[head | result_list], List.delete(left_list, head)})
+  end
+  defp _my_split([head | tail], num, done, {result_list, left_list})
+  when done >= num do
+    _my_split(tail, num, done + 1, {result_list, left_list})
   end
 
   # take
@@ -55,7 +64,7 @@ defmodule MyEnum do
 end
 
 # 10.2
-# (Hard) Write a flatten(list) function that takes a list that may contain any number of sublists, which themselves may contain sublists, to any depth. It returns the elements of these lists as a flat list.
+# (Hard) Write a flatten(list) function that takes a list that may contain any num of sublists, which themselves may contain sublists, to any depth. It returns the elements of these lists as a flat list.
 #
 # iex> MyList.flatten([ 1, [ 2, 3, [4] ], 5, [[[6]]]]) [1,2,3,4,5,6]
 #
