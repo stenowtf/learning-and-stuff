@@ -30,9 +30,7 @@ defmodule MyEnum do
   # filter
   # Filters the enumerable, i.e. returns only those elements for which fun returns a truthy value.
   def my_filter(list, func), do: _my_filter(list, func, [])
-  defp _my_filter([], _, result_list) do
-    Enum.reverse(result_list)
-  end
+  defp _my_filter([], _, result_list), do: Enum.reverse(result_list)
   defp _my_filter([head | tail], func, result_list) do
     new_result_list = if func.(head) do
                         [head | result_list]
@@ -44,14 +42,15 @@ defmodule MyEnum do
 
   # split
   # Splits the enumerable into two enumerables, leaving count elements in the first one.
-
-
-
-
+  def my_split(list, number), do: _my_split(list, number, {[], list})
+  defp _my_filter([], _, {result_list, left_list}), do: {result_list, left_list}
+  defp _my_filter(_, 0, {result_list, left_list}), do: {result_list, left_list}
+  defp _my_filter([head | tail], number, {result_list, left_list}) do
+    #
+  end
 
   # take
   # Takes the first count items from the enumerable.
-
 
 end
 
@@ -70,8 +69,8 @@ IO.inspect MyEnum.my_each(["some", "example"], fn(x) -> IO.puts x end)
 IO.inspect MyEnum.my_filter([1, 2, 3], fn(x) -> rem(x, 2) == 0 end)    # [2]
 IO.inspect MyEnum.my_filter([1, 2, 3, 4], fn(x) -> rem(x, 2) == 0 end) # [2, 4]
 
-# IO.inspect MyEnum.my_split([1, 2, 3], 2)  # {[1, 2], [3]}
-# IO.inspect MyEnum.my_split([1, 2, 3], 10) # {[1, 2, 3], []}
-# IO.inspect MyEnum.my_split([1, 2, 3], 0)  # {[], [1, 2, 3]}
+IO.inspect MyEnum.my_split([1, 2, 3], 2)  # {[1, 2], [3]}
+IO.inspect MyEnum.my_split([1, 2, 3], 10) # {[1, 2, 3], []}
+IO.inspect MyEnum.my_split([1, 2, 3], 0)  # {[], [1, 2, 3]}
 
 
