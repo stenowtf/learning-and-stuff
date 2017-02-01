@@ -60,26 +60,44 @@ defmodule MyEnum do
 
   # take
   # Takes the first count items from the enumerable.
+  def my_take(list, num), do: _my_take(list, num, 0, [])
+  defp _my_take([], _, _, result) do
+    Enum.reverse(result)
+  end
+  defp _my_take(_, 0, 0, _) do
+    []
+  end
+  defp _my_take([head | tail], num, done, result)
+  when done < num do
+    _my_take(tail, num, done + 1, [head | result])
+  end
+  defp _my_take([head | tail], num, done, result)
+  when done >= num do
+    Enum.reverse(result)
+  end
 
 end
 
 # 10.2
-# (Hard) Write a flatten(list) function that takes a list that may contain any num of sublists, which themselves may contain sublists, to any depth. It returns the elements of these lists as a flat list.
+# (Hard) Write a flatten(list) function that takes a list that may contain any number of sublists, which themselves may contain sublists, to any depth. It returns the elements of these lists as a flat list.
 #
 # iex> MyList.flatten([ 1, [ 2, 3, [4] ], 5, [[[6]]]]) [1,2,3,4,5,6]
 #
 # Hint: You may have to use Enum.reverse to get your result in the correct order.
 
-IO.inspect MyEnum.my_all?([2, 4, 6], fn(x) -> rem(x, 2) == 0 end) # true
-IO.inspect MyEnum.my_all?([2, 3, 4], fn(x) -> rem(x, 2) == 0 end) # false
+# IO.inspect MyEnum.my_all?([2, 4, 6], fn(x) -> rem(x, 2) == 0 end) # true
+# IO.inspect MyEnum.my_all?([2, 3, 4], fn(x) -> rem(x, 2) == 0 end) # false
 
-IO.inspect MyEnum.my_each(["some", "example"], fn(x) -> IO.puts x end)
+# IO.inspect MyEnum.my_each(["some", "example"], fn(x) -> IO.puts x end)
 
-IO.inspect MyEnum.my_filter([1, 2, 3], fn(x) -> rem(x, 2) == 0 end)    # [2]
-IO.inspect MyEnum.my_filter([1, 2, 3, 4], fn(x) -> rem(x, 2) == 0 end) # [2, 4]
+# IO.inspect MyEnum.my_filter([1, 2, 3], fn(x) -> rem(x, 2) == 0 end)    # [2]
+# IO.inspect MyEnum.my_filter([1, 2, 3, 4], fn(x) -> rem(x, 2) == 0 end) # [2, 4]
 
-IO.inspect MyEnum.my_split([1, 2, 3], 2)  # {[1, 2], [3]}
-IO.inspect MyEnum.my_split([1, 2, 3], 10) # {[1, 2, 3], []}
-IO.inspect MyEnum.my_split([1, 2, 3], 0)  # {[], [1, 2, 3]}
+# IO.inspect MyEnum.my_split([1, 2, 3], 2)  # {[1, 2], [3]}
+# IO.inspect MyEnum.my_split([1, 2, 3], 10) # {[1, 2, 3], []}
+# IO.inspect MyEnum.my_split([1, 2, 3], 0)  # {[], [1, 2, 3]}
 
-
+IO.inspect MyEnum.my_take([1, 2, 3], 2)  # [1, 2]
+IO.inspect MyEnum.my_take([1, 2, 3], 10) # [1, 2, 3]
+IO.inspect MyEnum.my_take([1, 2, 3], 0)  # []
+# IO.inspect MyEnum.my_take([1, 2, 3], -1) # [3]
