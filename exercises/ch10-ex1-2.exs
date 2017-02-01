@@ -75,7 +75,6 @@ defmodule MyEnum do
   when done >= num do
     Enum.reverse(result)
   end
-
 end
 
 # 10.2
@@ -85,17 +84,19 @@ end
 #
 # Hint: You may have to use Enum.reverse to get your result in the correct order.
 
-# IO.inspect MyEnum.my_all?([2, 4, 6], fn(x) -> rem(x, 2) == 0 end) # true
-# IO.inspect MyEnum.my_all?([2, 3, 4], fn(x) -> rem(x, 2) == 0 end) # false
+# todo
 
-# IO.inspect MyEnum.my_each(["some", "example"], fn(x) -> IO.puts x end)
+IO.inspect MyEnum.my_all?([2, 4, 6], fn(x) -> rem(x, 2) == 0 end) # true
+IO.inspect MyEnum.my_all?([2, 3, 4], fn(x) -> rem(x, 2) == 0 end) # false
 
-# IO.inspect MyEnum.my_filter([1, 2, 3], fn(x) -> rem(x, 2) == 0 end)    # [2]
-# IO.inspect MyEnum.my_filter([1, 2, 3, 4], fn(x) -> rem(x, 2) == 0 end) # [2, 4]
+IO.inspect MyEnum.my_each(["some", "example"], fn(x) -> IO.puts x end)
 
-# IO.inspect MyEnum.my_split([1, 2, 3], 2)  # {[1, 2], [3]}
-# IO.inspect MyEnum.my_split([1, 2, 3], 10) # {[1, 2, 3], []}
-# IO.inspect MyEnum.my_split([1, 2, 3], 0)  # {[], [1, 2, 3]}
+IO.inspect MyEnum.my_filter([1, 2, 3], fn(x) -> rem(x, 2) == 0 end)    # [2]
+IO.inspect MyEnum.my_filter([1, 2, 3, 4], fn(x) -> rem(x, 2) == 0 end) # [2, 4]
+
+IO.inspect MyEnum.my_split([1, 2, 3], 2)  # {[1, 2], [3]}
+IO.inspect MyEnum.my_split([1, 2, 3], 10) # {[1, 2, 3], []}
+IO.inspect MyEnum.my_split([1, 2, 3], 0)  # {[], [1, 2, 3]}
 
 IO.inspect MyEnum.my_take([1, 2, 3], 2)  # [1, 2]
 IO.inspect MyEnum.my_take([1, 2, 3], 10) # [1, 2, 3]
