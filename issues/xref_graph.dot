@@ -1,0 +1,8 @@
+digraph "xref graph" {
+  "lib/issues.ex"
+  "lib/issues/cli.ex"
+  "lib/issues/cli.ex" -> "lib/issues/table_formatter.ex" [label="(compile)"]
+  "lib/issues/cli.ex" -> "lib/issues/github_issues.ex"
+  "lib/issues/github_issues.ex"
+  "lib/issues/table_formatter.ex"
+}
