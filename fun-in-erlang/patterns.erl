@@ -8,8 +8,10 @@ xOr_1(false, true) ->
 xOr_1(_, _) ->
     false.
 
-xOr_2(X, X) -> false;
-xOr_2(_, _) -> true.
+xOr_2(X, X) ->
+    false;
+xOr_2(_, _) ->
+    true.
 
 xOr_3(true, X) ->
     not(X);
@@ -21,8 +23,13 @@ xOr_3(false, X) ->
 maxThree(A, B, C) ->
     max(max(A, B), C).
 
-howManyEqual(X, X, X) -> 3;
-howManyEqual(X, X, _) -> 2;
-howManyEqual(X, _, X) -> 2;
-howManyEqual(_, X, X) -> 2;
-howManyEqual(_, _, _) -> 0.
+howManyEqual(X, X, X)
+    -> 3;
+howManyEqual(X, X, _)
+    -> 2;
+howManyEqual(X, _, X)
+    -> 2;
+howManyEqual(_, X, X)
+    -> 2;
+howManyEqual(_, _, _)
+    -> 0.
