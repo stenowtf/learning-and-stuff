@@ -1,9 +1,11 @@
 defmodule Servy.Handler do
-  require Logger
+  @moduledoc "Handles HTTP requests."
 
-  @moduledocs "Handles HTTP requests."
+  @pages_path Path.expand("pages", File.cwd!)
 
-  @pages_path Path.expand("../../pages", __DIR__)
+  import Servy.Plugins, only: [rewrite_path: 1, log: 1, track: 1]
+  import Servy.Parser, only: [parse: 1]
+  import Servy.FileHandler, only: [handle_file: 2]
 
   @doc "Transform the request into a response."
   def handle(request) do
@@ -15,36 +17,6 @@ defmodule Servy.Handler do
     |> emojify
     |> track
     |> format_response
-  end
-
-  def parse(request) do
-    [method, path, _] =
-      request
-      |> String.split("\n")
-      |> List.first
-      |> String.split(" ")
-
-    %{ method: method, path: path, resp_body: "", status: nil }
-  end
-
-  def rewrite_path(%{ path: "/wildlife" } = conv) do
-    %{ conv | path: "/wildthings" }
-  end
-
-  def rewrite_path(%{ path: "/bears?id=" <> id } = conv) do
-    %{ conv | path: "/bears/#{id}" }
-  end
-
-  def rewrite_path(conv) do
-    conv
-  end
-
-  @doc "Logs 404 requests"
-  def log(conv) do
-    Logger.info fn ->
-      "conv: #{inspect(conv)}"
-    end
-    conv
   end
 
   def route(%{ method: "GET", path: "/wildthings" } = conv) do
@@ -76,18 +48,6 @@ defmodule Servy.Handler do
     |> handle_file(conv)
   end
 
-  def handle_file({:ok, content}, conv) do
-    %{ conv | status: 200, resp_body: content }
-  end
-
-  def handle_file({:error, :enoent}, conv) do
-    %{ conv | status: 404, resp_body: "File not found!" }
-  end
-
-  def handle_file({:error, reason}, conv) do
-    %{ conv | status: 500, resp_body: "File error: #{reason}" }
-  end
-
   def route(%{ method: "GET", path: "/bears/" <> id } = conv) do
     %{ conv | status: 200, resp_body: "Bear #{id}" }
   end
@@ -105,17 +65,6 @@ defmodule Servy.Handler do
   end
 
   def emojify(conv) do
-    conv
-  end
-
-  def track(%{ status: 404, path: path } = conv) do
-    Logger.warn fn ->
-      "Warning: #{path} is on the loose!"
-    end
-    conv
-  end
-
-  def track(conv) do
     conv
   end
 
