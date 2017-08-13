@@ -21,15 +21,20 @@ defmodule Servy.Handler do
     |> format_response
   end
 
-  def route(%Conv{ method: "GET", path: "/wildthings" } = conv) do
-    %Conv{ conv | status: 200, resp_body: "Bears, Lions, Tigers" }
+  def route(%Conv{method: "GET", path: "/wildthings"} = conv) do
+    %Conv{conv | status: 200, resp_body: "Bears, Lions, Tigers"}
   end
 
-  def route(%Conv{ method: "GET", path: "/bears" } = conv) do
-    %Conv{ conv | status: 200, resp_body: "Teddy, Smokey, Paddington" }
+  def route(%Conv{method: "GET", path: "/bears"} = conv) do
+    %Conv{conv | status: 200, resp_body: "Teddy, Smokey, Paddington"}
   end
 
-  def route(%Conv{ method: "GET", path: "/about" } = conv) do
+  def route(%Conv{method: "POST", path: "/bears"} = conv) do
+    %Conv{conv | status: 201,
+      resp_body: "Created a #{conv.params["type"]} bear named #{conv.params["name"]}!"}
+  end
+
+  def route(%Conv{method: "GET", path: "/about"} = conv) do
     @pages_path
     |> Path.join("about.html")
     |> File.read
@@ -43,27 +48,27 @@ defmodule Servy.Handler do
     |> handle_file(conv)
   end
 
-  def route(%Conv{ method: "GET", path: "/bears/new" } = conv) do
+  def route(%Conv{method: "GET", path: "/bears/new"} = conv) do
     @pages_path
     |> Path.join("form.html")
     |> File.read
     |> handle_file(conv)
   end
 
-  def route(%Conv{ method: "GET", path: "/bears/" <> id } = conv) do
-    %Conv{ conv | status: 200, resp_body: "Bear #{id}" }
+  def route(%Conv{method: "GET", path: "/bears/" <> id} = conv) do
+    %Conv{conv | status: 200, resp_body: "Bear #{id}"}
   end
 
-  def route(%Conv{ method: "DELETE", path: "/bears/" <> _id } = conv) do
-    %Conv{ conv | status: 403, resp_body: "Deleting a bear is forbidden!"}
+  def route(%Conv{method: "DELETE", path: "/bears/" <> _id} = conv) do
+    %Conv{conv | status: 403, resp_body: "Deleting a bear is forbidden!"}
   end
 
-  def route(%Conv{ path: path } = conv) do
-    %Conv{ conv | status: 404, resp_body: "No #{path} here!" }
+  def route(%Conv{path: path} = conv) do
+    %Conv{conv | status: 404, resp_body: "No #{path} here!"}
   end
 
-  def emojify(%Conv{ status: 200 } = conv) do
-    %Conv{ conv | resp_body: "😀 #{conv.resp_body} 😙" }
+  def emojify(%Conv{status: 200} = conv) do
+    %Conv{conv | resp_body: "😀 #{conv.resp_body} 😙"}
   end
 
   def emojify(%Conv{} = conv) do
@@ -157,6 +162,19 @@ Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
 
+"""
+response = Servy.Handler.handle(request)
+IO.puts response
+
+request = """
+POST /bears HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 21
+
+name=Baloo&type=Brown
 """
 response = Servy.Handler.handle(request)
 IO.puts response
