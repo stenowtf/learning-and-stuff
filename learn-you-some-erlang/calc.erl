@@ -1,5 +1,6 @@
 -module(calc).
--export([rpn/1, rpn_test/0]).
+-author("Stefano Canducci").
+-compile([debug_info, export_all]).
 
 %% rpn(List()) -> Int() | Float()
 %% parses an RPN string and outputs the results.

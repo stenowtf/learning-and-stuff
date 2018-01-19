@@ -1,5 +1,6 @@
 -module(road).
--compile(export_all).
+-author("Stefano Canducci").
+-compile([debug_info, export_all]).
 
 main([FileName]) ->
     {ok, Bin} = file:read_file(FileName),
