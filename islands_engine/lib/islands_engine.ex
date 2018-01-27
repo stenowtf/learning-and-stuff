@@ -1,6 +1,6 @@
-defmodule IslandEngine do
+defmodule IslandsEngine do
   @moduledoc """
-  Documentation for IslandEngine.
+  Documentation for IslandsEngine.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule IslandEngine do
 
   ## Examples
 
-      iex> IslandEngine.hello
+      iex> IslandsEngine.hello
       :world
 
   """
