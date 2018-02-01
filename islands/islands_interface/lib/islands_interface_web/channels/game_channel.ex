@@ -1,7 +1,7 @@
 defmodule IslandsInterfaceWeb.GameChannel do
   use IslandsInterfaceWeb, :channel
 
-  alias IslandsEngine.{Game, GameSupervisor}
+  alias IslandsEngine.{Game, GameSupervisor, Island}
   alias IslandsInterfaceWeb.Presence
 
   def join("game:" <> _player, %{"screen_name" => screen_name}, socket) do
@@ -24,8 +24,12 @@ defmodule IslandsInterfaceWeb.GameChannel do
     "game:" <> player = socket.topic
 
     case GameSupervisor.start_game(player) do
-      {:ok, _pid} -> {:reply, :ok, socket}
-      {:error, reason} -> {:reply, {:error, %{reason: inspect(reason)}}, socket}
+      {:ok, _pid} ->
+        Island.types()
+        {:reply, :ok, socket}
+
+      {:error, reason} ->
+        {:reply, {:error, %{reason: inspect(reason)}}, socket}
     end
   end
 
