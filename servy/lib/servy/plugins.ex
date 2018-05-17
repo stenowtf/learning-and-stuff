@@ -17,16 +17,18 @@ defmodule Servy.Plugins do
 
   @doc "Logs 404 requests"
   def log(%Conv{} = conv) do
-    Logger.info fn ->
+    Logger.info(fn ->
       "conv: #{inspect(conv)}"
-    end
+    end)
+
     conv
   end
 
   def track(%Conv{status: 404, path: path} = conv) do
-    Logger.warn fn ->
+    Logger.warn(fn ->
       "Warning: #{path} is on the loose!"
-    end
+    end)
+
     conv
   end
 
