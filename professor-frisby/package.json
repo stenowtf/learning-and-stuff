@@ -1,7 +1,11 @@
 {
   "name": "composable-functional-js",
   "version": "0.0.1",
+  "description": "",
+  "repository": {},
+  "license": "",
   "dependencies": {
+    "data.task": "3.1.1",
     "fs": "^0.0.1-security",
     "immutable": "3.8.2",
     "immutable-ext": "^1.1.5"
