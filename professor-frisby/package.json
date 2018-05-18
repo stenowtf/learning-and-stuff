@@ -1,0 +1,9 @@
+{
+  "name": "composable-functional-js",
+  "version": "0.0.1",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "immutable": "3.8.2",
+    "immutable-ext": "^1.1.5"
+  }
+}
