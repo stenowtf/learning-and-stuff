@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- MDL -->
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500|Roboto+Mono|Roboto+Condensed:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.primary-secondary.min.css" />
+
+        <title>SPA in Elm</title>
+    </head>
+
+    <body>
+        <div id="app-wrapper"></div>
+        <script src="/app/js/app.js"></script>
+        <script>
+            let wrapper = document.getElementById("app-wrapper");
+            let app = Elm.Main.embed(wrapper)
+        </script>
+    </body>
+</html>

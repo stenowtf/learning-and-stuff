@@ -1,9 +1,12 @@
 {
-  "name": "composable-functional-js",
+  "name": "professor-frisby",
   "version": "0.0.1",
-  "description": "",
-  "repository": {},
-  "license": "",
+  "description": "Professor Frisby Introduces Composable Functional JavaScript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stenowtf/learning-and-stuff/tree/master/professor-frisby"
+  },
+  "license": "NO-LICENSE",
   "dependencies": {
     "data.task": "3.1.1",
     "fs": "^0.0.1-security",
