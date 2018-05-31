@@ -116,6 +116,45 @@ revelation =
     """
 
 
+descending a b =
+    case compare a b of
+        LT ->
+            GT
+
+        GT ->
+            LT
+
+        EQ ->
+            EQ
+
+
+evilometer character1 character2 =
+    case ( character1, character2 ) of
+        ( "Joffrey", "Ramsay" ) ->
+            LT
+
+        ( "Joffrey", "Night King" ) ->
+            LT
+
+        ( "Ramsay", "Joffrey" ) ->
+            GT
+
+        ( "Ramsay", "Night King" ) ->
+            LT
+
+        ( "Night King", "Joffrey" ) ->
+            GT
+
+        ( "Night King", "Ramsay" ) ->
+            GT
+
+        _ ->
+            GT
+
+
 main : Html.Html msg
 main =
-    Html.text revelation
+    [ "Night King", "Joffrey", "Ramsay" ]
+        |> List.sortWith evilometer
+        |> toString
+        |> Html.text
