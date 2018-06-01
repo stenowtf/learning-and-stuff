@@ -16,6 +16,7 @@ type alias Model =
     { name : String
     , gameNumber : Int
     , entries : List Entry
+    , alertMessage : Maybe String
     }
 
 
@@ -32,6 +33,7 @@ initialModel =
     { name = "Mike"
     , gameNumber = 1
     , entries = []
+    , alertMessage = Nothing
     }
 
 
@@ -44,6 +46,7 @@ type Msg
     | Mark Int
     | NewRandom Int
     | NewEntries (Result Http.Error (List Entry))
+    | CloseAlert
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -66,10 +69,35 @@ update msg model =
 
                 Err error ->
                     let
-                        _ =
-                            Debug.log "Oops!" error
+                        errorMessage =
+                            case error of
+                                Http.NetworkError ->
+                                    "Is the server running?"
+
+                                Http.Timeout ->
+                                    "Request timed out!"
+
+                                Http.BadUrl url ->
+                                    "Invalid URL: " ++ url
+
+                                Http.BadStatus response ->
+                                    case response.status.code of
+                                        401 ->
+                                            "Unauthorized"
+
+                                        404 ->
+                                            "Not Found"
+
+                                        code ->
+                                            toString code
+
+                                Http.BadPayload reason response ->
+                                    reason
                     in
-                    ( model, Cmd.none )
+                    ( { model | alertMessage = Just errorMessage }, Cmd.none )
+
+        CloseAlert ->
+            ( { model | alertMessage = Nothing }, Cmd.none )
 
         Mark id ->
             let
@@ -195,6 +223,7 @@ view model =
     div [ class "content" ]
         [ viewHeader "BUZZWORD BINGO"
         , viewPlayer model.name model.gameNumber
+        , viewAlertMessage model.alertMessage
         , viewEntryList model.entries
         , viewScore (sumMarkedPoints model.entries)
         , div [ class "button-group" ]
@@ -202,6 +231,19 @@ view model =
         , div [ class "debug" ] [ text (toString model) ]
         , viewFooter
         ]
+
+
+viewAlertMessage : Maybe String -> Html Msg
+viewAlertMessage alertMessage =
+    case alertMessage of
+        Just message ->
+            div [ class "alert" ]
+                [ span [ class "close", onClick CloseAlert ] [ text "X" ]
+                , text message
+                ]
+
+        Nothing ->
+            text ""
 
 
 init : ( Model, Cmd Msg )
