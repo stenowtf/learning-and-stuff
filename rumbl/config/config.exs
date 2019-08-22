@@ -17,6 +17,8 @@ config :rumbl, RumblWeb.Endpoint,
   render_errors: [view: RumblWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Rumbl.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :rumbl, RumblWeb.Gettext, default_locale: "it", locales: ~w(en it)
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -28,5 +30,3 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
-
-config :rumbl, RumblWeb.Gettext, default_locale: "it", locales: ~w(en it)
