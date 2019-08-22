@@ -1,4 +1,5 @@
 <section class="phx-hero">
   <h1><%= gettext "Welcome to %{name}!", name: "Rumbl.io" %></h1>
   <p>Rumbl out loud.</p>
+  <h6><%= gettext "This site is brought to you by %{author}", author: "steno" %></h6>
 </section>
